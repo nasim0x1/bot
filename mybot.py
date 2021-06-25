@@ -2,6 +2,8 @@ from selenium import webdriver
 import os
 import time
 from urllib.parse import unquote
+from selenium.webdriver.chrome.options import Options
+
 # Create the CoinBot Class
 class LinkedInBot:
 
@@ -20,7 +22,11 @@ class LinkedInBot:
     # parameter and then sets it as an instance variable
     def __init__(self, channel):
         self.channel = channel
-        self.browser = webdriver.Chrome(os.getcwd()+"/chromedriver")
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        self.browser = webdriver.Chrome(executable_path=os.getcwd()+"/chromedriver",chrome_options=chrome_options)
 
 
     # scrape the data from linkedin    
@@ -36,6 +42,8 @@ class LinkedInBot:
         elementID.send_keys("Gh)tq,EiH4(?c2U")
         #Note: replace the keys "username" and "password" with your LinkedIn login info
         elementID.submit()
+
+        print(self.browser.current_url)
 
         hashtags = ["Diversity","Inclusion","Diverseandinclusive","D&L","metric","nationalaward",
                     "globalaward","Diversitylab","Vault","mansfieldrule","D&FAlliances",
